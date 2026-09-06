@@ -8,6 +8,7 @@ from services.model_service import predict_top_crops
 from flask import request
 from flask import session
 from services.auth_service import register_user, authenticate_user
+from services.farm_plan_service import generate_farm_plan
 
 
 dotenv_path = find_dotenv()
@@ -17,6 +18,34 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5500", "http://localhost:5500"])
 
 app.secret_key = "temporary-dev-secret-change-this-later" 
+
+@app.route("/api/generate-plan", methods=["POST"])
+def generate_plan():
+    try:
+        data = request.get_json()
+
+        crop = data.get("crop")
+        farm_profile = data.get("farm_profile")
+
+        if not crop or not farm_profile:
+            return jsonify({
+                "success": False,
+                "error": "Request must include 'crop' and 'farm_profile'"
+            }), 400
+
+        plan = generate_farm_plan(crop, farm_profile)
+
+        return jsonify({
+            "success": True,
+            "farm_plan": plan
+        })
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+        
 
 @app.route("/api/register", methods=["POST"])
 def register():
@@ -59,12 +88,30 @@ def login():
         session["user_name"] = user["name"]
 
         return jsonify({"success": True, "user": user})
+    
 
     except ValueError as e:
         return jsonify({"success": False, "error": str(e)}), 401
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
+@app.route("/api/logout", methods=["POST"])
+def logout():
+    session.clear()
+    return jsonify({"success": True})
 
+
+@app.route("/api/current-user")
+def current_user():
+    if "user_id" not in session:
+        return jsonify({"success": False, "error": "Not logged in"}), 401
+
+    return jsonify({
+        "success": True,
+        "user": {
+            "id": session["user_id"],
+            "name": session.get("user_name")
+        }
+    })
 
 @app.route("/api/analyse-farm", methods=["POST"])
 def analyse_farm():
