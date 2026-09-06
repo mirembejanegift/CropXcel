@@ -19,7 +19,23 @@ CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5500", "http://l
 
 app.secret_key = "temporary-dev-secret-change-this-later" 
 
+
 @app.route("/api/generate-plan", methods=["POST"])
+def generate_plan():
+    try:
+        data = request.get_json()
+        crop = data.get("crop")
+        farm_profile = data.get("farm_profile")
+
+        if not crop or not farm_profile:
+            return jsonify({"success": False, "error": "Request must include 'crop' and 'farm_profile'"}), 400
+
+        plan = generate_farm_plan(crop, farm_profile)
+        return jsonify({"success": True, "farm_plan": plan})
+
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+    
 def generate_plan():
     try:
         data = request.get_json()
@@ -46,7 +62,6 @@ def generate_plan():
             "error": str(e)
         }), 500
         
-
 @app.route("/api/register", methods=["POST"])
 def register():
     try:

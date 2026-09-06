@@ -4,7 +4,6 @@ import requests
 
 BASE_URL = "https://api.isda-africa.com"
 
-# Simple in-memory token cache so we don't log in on every single property request
 _token_cache = {
     "token": None,
     "expires_at": 0
@@ -15,7 +14,7 @@ def get_isda_token():
     """
     Logs into iSDAsoil using credentials from environment variables
     and returns an access token string. Reuses a cached token if it's
-    still valid (tokens last ~60 minutes; we refresh a bit early to be safe).
+    still valid.
     """
     now = time.time()
 
@@ -41,7 +40,6 @@ def get_isda_token():
     if not token:
         raise ValueError("Login succeeded but no access_token found in response")
 
-    # Cache it for 50 minutes (tokens last 60; refreshing early avoids edge-case expiry)
     _token_cache["token"] = token
     _token_cache["expires_at"] = now + (50 * 60)
 
@@ -86,3 +84,5 @@ def get_soil_profile(latitude, longitude):
             "value": entry["value"],
             "unit": entry["unit"]
         }
+
+    return profile
