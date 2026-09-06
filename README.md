@@ -212,7 +212,7 @@ curl -X POST http://127.0.0.1:5000/api/analyse-farm \
 - **Algorithm:** Random Forest Classifier (scikit-learn)
 - **Features used:** `temperature`, `humidity`, `ph`, `rainfall`
 - **Target:** `label` (crop name)
-- **Accuracy:** 96.6% on held-out test data
+- **Accuracy:** ~96.6% on held-out test data
 - **Output:** Top 3 crop predictions with confidence scores, using `predict_proba()`
 
 Feature order at prediction time **must** match training order exactly: `temperature, humidity, ph, rainfall`.
@@ -225,11 +225,15 @@ Feature order at prediction time **must** match training order exactly: `tempera
 - **Location search** is restricted to Uganda (`countrycodes=ug` in the Nominatim query).
 - **Rainfall figure** reflects the last 30 days, not a live or annual reading — this is a deliberate scale-compatibility choice (see Key Engineering Decisions above).
 
+---
 
 ##  Acknowledgements
 
-[iSDAsoil](https://www.isda-africa.com/) for mapped soil property estimates across Africa
-[Open-Meteo](https://open-meteo.com/) for free, no-key weather and historical climate data
-[OpenStreetMap](https://www.openstreetmap.org/) contributors and [Nominatim](https://nominatim.org/) for geocoding
-[Leaflet.js](https://leafletjs.com/) for the interactive mapping library
-Crop recommendation training data originally from the public Kaggle "Crop Recommendation Dataset"
+- [iSDAsoil](https://www.isda-africa.com/) for mapped soil property estimates across Africa
+- [Open-Meteo](https://open-meteo.com/) for free, no-key weather and historical climate data
+- [OpenStreetMap](https://www.openstreetmap.org/) contributors and [Nominatim](https://nominatim.org/) for geocoding
+- [Leaflet.js](https://leafletjs.com/) for the interactive mapping library
+- Crop recommendation training data originally from the public Kaggle "Crop Recommendation Dataset"
+
+---
+
