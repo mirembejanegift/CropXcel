@@ -6,13 +6,64 @@ from services.soil_service import get_isda_token
 from services.farm_profile_service import get_farm_profile
 from services.model_service import predict_top_crops
 from flask import request
+from flask import session
+from services.auth_service import register_user, authenticate_user
 
 
 dotenv_path = find_dotenv()
 load_dotenv(dotenv_path)
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5500", "http://localhost:5500"])
+
+app.secret_key = "temporary-dev-secret-change-this-later" 
+
+@app.route("/api/register", methods=["POST"])
+def register():
+    try:
+        data = request.get_json()
+        name = data.get("fullname") or data.get("name")
+        email = data.get("email")
+        password = data.get("password")
+        role = data.get("role", "farmer")
+        location = data.get("location")
+
+        if not name or not email or not password:
+            return jsonify({"success": False, "error": "name, email, and password are required"}), 400
+
+        user = register_user(name, email, password, role, location)
+
+        session["user_id"] = user["id"]
+        session["user_name"] = user["name"]
+
+        return jsonify({"success": True, "user": user})
+
+    except ValueError as e:
+        return jsonify({"success": False, "error": str(e)}), 400
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+    
+@app.route("/api/login", methods=["POST"])
+def login():
+    try:
+        data = request.get_json()
+        email = data.get("email")
+        password = data.get("password")
+
+        if not email or not password:
+            return jsonify({"success": False, "error": "email and password are required"}), 400
+
+        user = authenticate_user(email, password)
+
+        session["user_id"] = user["id"]
+        session["user_name"] = user["name"]
+
+        return jsonify({"success": True, "user": user})
+
+    except ValueError as e:
+        return jsonify({"success": False, "error": str(e)}), 401
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route("/api/analyse-farm", methods=["POST"])
@@ -108,24 +159,6 @@ def test_farm_profile():
             "error": str(e)
         }), 500
 
-
-# @app.route("/api/test-weather-raw")
-# def test_weather_raw():
-#     try:
-#         latitude = 0.3476
-#         longitude = 32.5825
-
-#         data = get_current_weather_raw(latitude, longitude)
-
-#         return jsonify({
-#             "success": True,
-#             "raw_data": data
-#         })
-#     except Exception as e:
-#         return jsonify({
-#             "success": False,
-#             "error": str(e)
-#         }), 500
 
 @app.route("/api/check-env")
 def check_env():
