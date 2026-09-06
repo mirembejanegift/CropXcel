@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CropXcel | My Farm</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/map.css">
+</head>
+
+<body>
+
+    <header class="app-header">
+        <div class="app-logo">🌱 CropXcel</div>
+        <div class="app-user">
+            <span id="userGreeting">Welcome</span>
+            <button id="logoutBtn">Logout</button>
+        </div>
+    </header>
+
+    <div class="map-page">
+
+        <div class="map-panel">
+            <div id="map"></div>
+        </div>
+
+        <div class="side-panel">
+
+            <div class="search-bar">
+                <input type="text" id="locationSearch" placeholder="Search for your village, town or district...">
+                <button id="searchBtn">Search</button>
+            </div>
+
+            <div class="soil-profile-card">
+                <h3>Estimated Soil & Weather Profile</h3>
+                <p class="hint">Search for your farm's location above, then click Analyse Farm.</p>
+
+                <div class="profile-row"><span class="label">Soil pH</span><span class="value" id="val-ph">—</span></div>
+                <div class="profile-row"><span class="label">Total Nitrogen</span><span class="value" id="val-nitrogen">—</span></div>
+                <div class="profile-row"><span class="label">Extractable Phosphorus</span><span class="value" id="val-phosphorus">—</span></div>
+                <div class="profile-row"><span class="label">Extractable Potassium</span><span class="value" id="val-potassium">—</span></div>
+                <div class="profile-row"><span class="label">Temperature</span><span class="value" id="val-temperature">—</span></div>
+                <div class="profile-row"><span class="label">Humidity</span><span class="value" id="val-humidity">—</span></div>
+                <div class="profile-row"><span class="label">Recent Rainfall (30 days)</span><span class="value" id="val-rainfall">—</span></div>
+            </div>
+
+            <button id="analyseBtn" class="analyse-btn">
+                <span class="analyse-text">Analyse Farm</span>
+                <span class="spinner" id="analyseSpinner"></span>
+            </button>
+
+            <p id="analyseStatus" class="analyse-status"></p>
+
+            <div class="crop-results-card" id="cropResultsCard" style="display:none;">
+                <h3>Top Recommended Crops</h3>
+                <p class="hint">Tap a crop to select it for your farm plan.</p>
+                <div id="cropResultsList"></div>
+                <button id="generatePlanBtn" class="analyse-btn" style="display:none; margin-top: 16px;">
+                    Generate Farm Plan
+                </button>
+            </div>
+
+            <div class="farm-plan-card" id="farmPlanCard" style="display:none;">
+                <h3>Your Farm Plan</h3>
+                <div class="plan-row"><span class="label">Crop</span><span class="value" id="plan-crop">—</span></div>
+                <div class="plan-row"><span class="label">Planting Status</span><span class="value" id="plan-status">—</span></div>
+                <p class="plan-guidance" id="plan-guidance"></p>
+                <div class="plan-row"><span class="label">Expected Harvest</span><span class="value" id="plan-harvest">—</span></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/map.js"></script>
+</body>
+</html>

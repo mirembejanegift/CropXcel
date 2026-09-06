@@ -1,0 +1,177 @@
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100%;
+}
+
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    background: #1b5e20;
+    color: white;
+    height: 60px;
+}
+
+.app-logo { font-weight: bold; font-size: 1.2rem; }
+
+.app-user { display: flex; align-items: center; gap: 16px; font-size: 0.9rem; }
+
+#logoutBtn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #ffca28;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.map-page { display: flex; height: calc(100vh - 60px); }
+
+.map-panel { flex: 3; }
+
+#map { height: 100%; width: 100%; }
+
+.side-panel {
+    flex: 2;
+    min-width: 380px;
+    max-width: 520px;
+    padding: 24px;
+    overflow-y: auto;
+    background: #f7f7f5;
+    border-left: 1px solid #ddd;
+}
+
+.search-bar { display: flex; gap: 8px; margin-bottom: 20px; }
+
+.search-bar input {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+}
+
+.search-bar button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    background: #1b5e20;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.soil-profile-card, .crop-results-card, .farm-plan-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    margin-bottom: 20px;
+}
+
+.soil-profile-card h3, .crop-results-card h3, .farm-plan-card h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: #1b5e20;
+    font-size: 1.1rem;
+}
+
+.hint { font-size: 0.85rem; color: #777; margin-bottom: 16px; line-height: 1.4; }
+
+.profile-row, .plan-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+}
+
+.profile-row:last-child, .plan-row:last-child { border-bottom: none; }
+
+.profile-row .label, .plan-row .label { color: #555; }
+
+.profile-row .value, .plan-row .value {
+    font-weight: bold;
+    color: #1b5e20;
+    text-transform: capitalize;
+}
+
+.plan-guidance {
+    font-size: 0.9rem;
+    color: #444;
+    line-height: 1.5;
+    margin: 14px 0;
+    padding: 12px;
+    background: #f7f7f5;
+    border-radius: 6px;
+}
+
+.analyse-btn {
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #ffca28;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.analyse-btn:disabled { background: #ddd; color: #999; cursor: not-allowed; }
+
+.spinner {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-top-color: #1b5e20;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.analyse-status { font-size: 0.85rem; color: #555; text-align: center; margin: 8px 0 20px 0; min-height: 18px; }
+
+.crop-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.crop-card:last-child { margin-bottom: 0; }
+
+.crop-card:hover { border-color: #1b5e20; background: #f5f9f5; }
+
+.crop-card.selected {
+    border-color: #1b5e20;
+    background: #e8f5e9;
+    box-shadow: 0 0 0 2px #1b5e20 inset;
+}
+
+.crop-card .crop-name { font-weight: bold; text-transform: capitalize; }
+
+.crop-card .crop-score {
+    background: #1b5e20;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+}
